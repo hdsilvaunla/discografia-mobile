@@ -1,6 +1,6 @@
 {
-  "appId": "con.hdsystem.discografia",
-  "appName": "COLECCION DISCOGRAFICA",
+  "appId": "com.hdsystem.discografia",
+  "appName": "MI COLECCION DISCOGRAFICA",
   "webDir": "www",
   "bundledWebRuntime": false,
   "server": {
