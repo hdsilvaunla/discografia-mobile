@@ -1,0 +1,58 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - run: npm install
+      - run: |
+          if [ ! -d "android" ]; then
+            npx cap add android
+          fi
+      - run: npx cap sync android
+      - run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+      - run: |
+          mkdir -p artifacts
+          cp android/app/build/outputs/apk/debug/app-debug.apk artifacts/discografia-mobile-v7.0.9.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: artifacts/*.apk
+          retention-days: 30
+      - name: Create Release
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v7.0.9-build-${{ github.run_number }}
+          name: Discografia Mobile v7.0.9 (build ${{ github.run_number }})
+          body: |
+            APK generado automaticamente.
+
+            **Instalacion:**
+            1. Descarga discografia-mobile-v7.0.9.apk
+            2. En el celu: Ajustes -> Seguridad -> permitir origenes desconocidos
+            3. Abri el APK y acepta la instalacion
+          files: artifacts/*.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,34 @@
+{
+  "appId": "com.hdsystem.discografia",
+  "appName": "MI COLECCION DISCOGRAFICA",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "allowNavigation": [
+      "open.spotify.com",
+      "music.youtube.com",
+      "music.apple.com",
+      "www.deezer.com",
+      "listen.tidal.com",
+      "music.amazon.com",
+      "soundcloud.com",
+      "www.discogs.com",
+      "script.google.com",
+      "script.googleusercontent.com",
+      "itunes.apple.com"
+    ]
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1200,
+      "backgroundColor": "#0e1116",
+      "showSpinner": false
+    }
+  }
+}
